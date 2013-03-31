@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * SellerCredential domain class<br>
  * <li>Used to represent the username and password information set of a seller.<br>
  */
-@Document
+@Document(collection = "SellerCredential")
 public class SellerCredential implements Serializable{
 	
 	@Id

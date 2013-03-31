@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * SellerIdentity domain class<br>
  * <li>Used to represent the information set of a seller.<br>
  */
-@Document
+@Document(collection = "SellerIdentity")
 public class SellerIdentity implements Serializable{
 
 	@Id
