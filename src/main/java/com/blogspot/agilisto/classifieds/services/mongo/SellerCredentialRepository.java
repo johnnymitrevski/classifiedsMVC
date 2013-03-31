@@ -19,9 +19,8 @@ public class SellerCredentialRepository implements SellerCredentialService {
 	public static String SELLER_CREDENTIAL_COLLECTION_NAME = "SellerCredential";
 	
 	@Override
-	public SellerCredential save(SellerCredential sellerCredential) {
-		// TODO Auto-generated method stub
-		return null;
+	public void save(SellerCredential sellerCredential) {
+		mongoTemplate.save(sellerCredential, SELLER_CREDENTIAL_COLLECTION_NAME);
 	}
 
 	@Override
@@ -31,16 +30,13 @@ public class SellerCredentialRepository implements SellerCredentialService {
 	}
 
 	@Override
-	public SellerCredential updateSellerCredential(
-			SellerCredential sellerCredential) {
+	public void updateSellerCredential(SellerCredential sellerCredential) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void deleteSellerCredential(SellerCredential sellerCredential) {
-		// TODO Auto-generated method stub
-
+		mongoTemplate.remove(sellerCredential, SELLER_CREDENTIAL_COLLECTION_NAME);
 	}
 
 }

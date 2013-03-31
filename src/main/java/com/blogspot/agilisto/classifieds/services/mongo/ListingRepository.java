@@ -19,7 +19,7 @@ public class ListingRepository implements ListingService {
 	public static String LISTING_COLLECTION_NAME = "Listing";
 	
 	@Override
-	public Listing save(Listing listing) {
+	public Long save(Listing listing) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -31,15 +31,13 @@ public class ListingRepository implements ListingService {
 	}
 
 	@Override
-	public Listing updateListing(Listing listing) {
+	public void updateListing(Listing listing) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void deleteListing(Listing listing) {
-		// TODO Auto-generated method stub
-
+		mongoTemplate.remove(listing, LISTING_COLLECTION_NAME);
 	}
 
 }

@@ -19,9 +19,8 @@ public class SellerIdentityRepository implements SellerIdentityService {
 	public static String SELLER_IDENTITY_COLLECTION_NAME = "SellerIdentity";
 	
 	@Override
-	public SellerIdentity save(SellerIdentity sellerIdentity) {
-		// TODO Auto-generated method stub
-		return null;
+	public void save(SellerIdentity sellerIdentity) {
+		mongoTemplate.save(sellerIdentity, SELLER_IDENTITY_COLLECTION_NAME);
 	}
 
 	@Override
@@ -31,15 +30,13 @@ public class SellerIdentityRepository implements SellerIdentityService {
 	}
 
 	@Override
-	public SellerIdentity updateSellerIdentity(SellerIdentity sellerIdentity) {
+	public void updateSellerIdentity(SellerIdentity sellerIdentity) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void deleteSellerIdentity(SellerIdentity sellerIdentity) {
-		// TODO Auto-generated method stub
-
+		mongoTemplate.remove(sellerIdentity, SELLER_IDENTITY_COLLECTION_NAME);
 	}
 
 }

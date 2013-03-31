@@ -6,11 +6,11 @@ import com.blogspot.agilisto.classifieds.model.Enquiry;
  * CRUD interface for Enquiry domain model
  */
 public interface EnquiryService {
-	Enquiry save(Enquiry enquiry);
+	Long save(Enquiry enquiry);
 	
 	Enquiry getEnquiry(String enquiry);
 	
-	Enquiry updateEnquiry(Enquiry enquiry);
+	void updateEnquiry(Enquiry enquiry);
 	
 	void deleteEnquiry(Enquiry enquiry);
 }

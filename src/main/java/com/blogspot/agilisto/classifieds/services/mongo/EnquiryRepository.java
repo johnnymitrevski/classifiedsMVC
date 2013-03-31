@@ -19,7 +19,7 @@ public class EnquiryRepository implements EnquiryService {
 	public static String ENQUIRY_COLLECTION_NAME = "Enquiry";
 	
 	@Override
-	public Enquiry save(Enquiry enquiry) {
+	public Long save(Enquiry enquiry) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -31,15 +31,13 @@ public class EnquiryRepository implements EnquiryService {
 	}
 
 	@Override
-	public Enquiry updateEnquiry(Enquiry enquiry) {
+	public void updateEnquiry(Enquiry enquiry) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void deleteEnquiry(Enquiry enquiry) {
-		// TODO Auto-generated method stub
-
+		mongoTemplate.remove(enquiry, ENQUIRY_COLLECTION_NAME);
 	}
 
 }

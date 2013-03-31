@@ -6,11 +6,11 @@ import com.blogspot.agilisto.classifieds.model.SellerIdentity;
  * CRUD interface for SellerIdentity domain model
  */
 public interface SellerIdentityService {
-	SellerIdentity save(SellerIdentity sellerIdentity);
+	void save(SellerIdentity sellerIdentity);
 	
 	SellerIdentity getSellerIdentity(String sellerIdentity);
 	
-	SellerIdentity updateSellerIdentity(SellerIdentity sellerIdentity);
+	void updateSellerIdentity(SellerIdentity sellerIdentity);
 	
 	void deleteSellerIdentity(SellerIdentity sellerIdentity);
 }

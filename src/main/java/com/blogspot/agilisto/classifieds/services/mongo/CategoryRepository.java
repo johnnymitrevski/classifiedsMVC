@@ -19,9 +19,8 @@ public class CategoryRepository implements CategoryService {
 	public static String CATEGORY_COLLECTION_NAME = "Category";
 	
 	@Override
-	public Category save(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+	public void save(Category category) {
+		mongoTemplate.save(category, CATEGORY_COLLECTION_NAME);
 	}
 
 	@Override
@@ -31,15 +30,13 @@ public class CategoryRepository implements CategoryService {
 	}
 
 	@Override
-	public Category updateCategory(Category category) {
+	public void updateCategory(Category category) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void deleteCategory(Category category) {
-		// TODO Auto-generated method stub
-
+		mongoTemplate.remove(category, CATEGORY_COLLECTION_NAME);
 	}
 
 }
