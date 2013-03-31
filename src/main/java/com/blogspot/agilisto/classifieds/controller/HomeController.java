@@ -1,4 +1,4 @@
-package com.blogspot.agilisto.classifieds;
+package com.blogspot.agilisto.classifieds.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
