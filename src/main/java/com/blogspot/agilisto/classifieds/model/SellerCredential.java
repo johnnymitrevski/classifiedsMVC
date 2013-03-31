@@ -5,6 +5,10 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * SellerCredential domain class<br>
+ * <li>Used to represent the username and password information set of a seller.<br>
+ */
 @Document
 public class SellerCredential implements Serializable{
 	

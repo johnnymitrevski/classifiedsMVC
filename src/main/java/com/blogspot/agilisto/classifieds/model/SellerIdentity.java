@@ -5,6 +5,10 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * SellerIdentity domain class<br>
+ * <li>Used to represent the information set of a seller.<br>
+ */
 @Document
 public class SellerIdentity implements Serializable{
 

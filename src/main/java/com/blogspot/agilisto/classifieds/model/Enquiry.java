@@ -5,6 +5,10 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Enquiry domain class<br>
+ * <li>Used to represent enquiries made on listings<br>
+ */
 @Document(collection = "Enquiry")
 public class Enquiry implements Serializable {
 	

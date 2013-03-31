@@ -2,6 +2,9 @@ package com.blogspot.agilisto.classifieds.services;
 
 import com.blogspot.agilisto.classifieds.model.Listing;
 
+/**
+ * CRUD interface for Listing domain model
+ */
 public interface ListingService {
 	Listing save(Listing listing);
 	

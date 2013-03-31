@@ -7,6 +7,10 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Listing domain class.<br>
+ * <li>Used to represent a listing on the site.<br>
+ */
 @Document
 public class Listing implements Serializable{
 	
