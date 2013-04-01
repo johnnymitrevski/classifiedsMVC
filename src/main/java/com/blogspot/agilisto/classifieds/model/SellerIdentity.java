@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SellerIdentity implements Serializable{
 
 	@Id
-	SellerCredential sellerCredential;
+	String username;
 	String email;
 	String firstName;
 	String lastName;
@@ -25,12 +25,27 @@ public class SellerIdentity implements Serializable{
 	double[] location;
 	String phoneNumber;
 	
-	public SellerCredential getSellerCredential() {
-		return sellerCredential;
+	public SellerIdentity(String username, String email, String firstName, String lastName, String street, String suburb,
+				String state, String postcode, String country, double[] location, String phoneNumber)
+	{
+		this.username = username;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.street = street;
+		this.suburb = suburb;
+		this.state = state;
+		this.postcode = postcode;
+		this.location = location;
+		this.phoneNumber = phoneNumber;
 	}
 	
-	public void setSellerCredential(SellerCredential sellerCredential) {
-		this.sellerCredential = sellerCredential;
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public String getEmail() {

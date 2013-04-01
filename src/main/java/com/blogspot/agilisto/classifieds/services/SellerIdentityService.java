@@ -1,5 +1,7 @@
 package com.blogspot.agilisto.classifieds.services;
 
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.blogspot.agilisto.classifieds.model.SellerIdentity;
 
 /**
@@ -8,9 +10,9 @@ import com.blogspot.agilisto.classifieds.model.SellerIdentity;
 public interface SellerIdentityService {
 	void save(SellerIdentity sellerIdentity);
 	
-	SellerIdentity getSellerIdentity(String sellerIdentity);
+	SellerIdentity getSellerIdentity(String username);
 	
-	void updateSellerIdentity(SellerIdentity sellerIdentity);
+	void updateSellerIdentity(String username, Update update);
 	
-	void deleteSellerIdentity(SellerIdentity sellerIdentity);
+	void deleteSellerIdentity(String username);
 }

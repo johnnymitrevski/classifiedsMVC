@@ -2,9 +2,7 @@ package com.blogspot.agilisto.classifieds.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -14,23 +12,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Listing")
 public class Listing implements Serializable{
 	
-	@Id
-	private Long listingId;
+	private String id;
 	private String title;
 	private String description;
 	private Double price;
 	private Category category;
-	private List<String> images;
 	private SellerIdentity sellerIdentity;
 	private Date listingDate;
 	private Date expiryDate;
 	
-	public Long getListingId() {
-		return listingId;
+	public Listing(String title, String description, Double price, Category category, SellerIdentity sellerIdentity,
+					Date listingDate, Date expiryDate)
+	{
+		this.title = title;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.sellerIdentity = sellerIdentity;
+		this.listingDate = listingDate;
+		this.expiryDate = expiryDate;
 	}
 	
-	public void setId(Long listingId) {
-		this.listingId = listingId;
+	public String getId() {
+		return id;
 	}
 	
 	public String getTitle() {
@@ -62,14 +66,6 @@ public class Listing implements Serializable{
 	
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-	
-	public List<String> getImages() {
-		return images;
-	}
-	
-	public void setImages(List<String> images) {
-		this.images = images;
 	}
 	
 	public SellerIdentity getSellerIdentity() {

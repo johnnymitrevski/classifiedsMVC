@@ -1,5 +1,7 @@
 package com.blogspot.agilisto.classifieds.services;
 
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.blogspot.agilisto.classifieds.model.Category;
 
 /**
@@ -8,9 +10,9 @@ import com.blogspot.agilisto.classifieds.model.Category;
 public interface CategoryService {
 	void save(Category category);
 	
-	Category getCategory(String category);
+	Category getCategory(String categoryId);
 	
-	void updateCategory(Category category);
+	void updateCategory(String categoryId, Update update);
 	
-	void deleteCategory(Category category);
+	void deleteCategory(String categoryId);
 }

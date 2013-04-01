@@ -1,5 +1,7 @@
 package com.blogspot.agilisto.classifieds.services;
 
+import org.springframework.data.mongodb.core.query.Update;
+
 import com.blogspot.agilisto.classifieds.model.SellerCredential;
 
 /**
@@ -8,9 +10,9 @@ import com.blogspot.agilisto.classifieds.model.SellerCredential;
 public interface SellerCredentialService {
 	void save(SellerCredential sellerCredential);
 	
-	SellerCredential getSellerCredential(String sellerCredential);
+	SellerCredential getSellerCredential(String username);
 	
-	void updateSellerCredential(SellerCredential sellerCredential);
+	void updateSellerCredential(String username, Update update);
 	
-	void deleteSellerCredential(SellerCredential sellerCredential);
+	void deleteSellerCredential(String username);
 }

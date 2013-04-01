@@ -2,6 +2,9 @@ package com.blogspot.agilisto.classifieds.services.mongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.blogspot.agilisto.classifieds.model.Category;
@@ -24,18 +27,18 @@ public class CategoryRepository implements CategoryService {
 	}
 
 	@Override
-	public Category getCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category getCategory(String categoryId) {
+		return mongoTemplate.findById(categoryId, Category.class, CATEGORY_COLLECTION_NAME);
 	}
 
 	@Override
-	public void updateCategory(Category category) {
-		// TODO Auto-generated method stub
+	public void updateCategory(String categoryId, Update update) {
+		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(categoryId)), update, CATEGORY_COLLECTION_NAME);
 	}
 
 	@Override
-	public void deleteCategory(Category category) {
+	public void deleteCategory(String categoryId) {
+		Category category = this.getCategory(categoryId);
 		mongoTemplate.remove(category, CATEGORY_COLLECTION_NAME);
 	}
 

@@ -10,28 +10,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent enquiries made on listings<br>
  */
 @Document(collection = "Enquiry")
-public class Enquiry implements Serializable {
+public class Enquiry {
 	
-	@Id
-	private Long enquiryId;
-	private Listing listing;
+	private String id;
+	private String listingId;
 	private String email;
-	private String description;
+	private String comments;
 	
-	public Long getEnquiryId() {
-		return enquiryId;
+	public Enquiry(String listingId, String email, String comments)
+	{
+		this.listingId = listingId;
+		this.email = email;
+		this.comments = comments;
 	}
 	
-	public void setEnquiryId(Long enquiryId) {
-		this.enquiryId = enquiryId;
+	public String getId() {
+		return id;
 	}
 	
-	public Listing getListing() {
-		return listing;
+	public String getListingId() {
+		return listingId;
 	}
 	
-	public void setListing(Listing listing) {
-		this.listing = listing;
+	public void setListingId(String listingId) {
+		this.listingId = listingId;
 	}
 	
 	public String getEmail() {
@@ -42,11 +44,11 @@ public class Enquiry implements Serializable {
 		this.email = email;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getComments() {
+		return comments;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 }

@@ -2,6 +2,9 @@ package com.blogspot.agilisto.classifieds.services.mongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.blogspot.agilisto.classifieds.model.SellerCredential;
@@ -24,19 +27,19 @@ public class SellerCredentialRepository implements SellerCredentialService {
 	}
 
 	@Override
-	public SellerCredential getSellerCredential(String sellerCredential) {
-		// TODO Auto-generated method stub
-		return null;
+	public SellerCredential getSellerCredential(String username) {
+		return mongoTemplate.findById(username, SellerCredential.class, SELLER_CREDENTIAL_COLLECTION_NAME);
 	}
 
 	@Override
-	public void updateSellerCredential(SellerCredential sellerCredential) {
-		// TODO Auto-generated method stub
+	public void updateSellerCredential(String username, Update update) {
+		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(username)), update, SELLER_CREDENTIAL_COLLECTION_NAME);
 	}
 
 	@Override
-	public void deleteSellerCredential(SellerCredential sellerCredential) {
-		mongoTemplate.remove(sellerCredential, SELLER_CREDENTIAL_COLLECTION_NAME);
+	public void deleteSellerCredential(String username) {
+		SellerCredential sellerCredential = getSellerCredential(username);
+		mongoTemplate.remove(sellerCredential);
 	}
 
 }

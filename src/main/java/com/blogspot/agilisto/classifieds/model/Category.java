@@ -14,21 +14,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category implements Serializable {
 	
 	@Id
-	private String category;
+	private String categoryId;
+	private Category parent;
 	private List<Category> children;
 	
-	public Category(String category, List<Category> children)
+	public Category(String categoryId, List<Category> children)
 	{
-		this.category = category;
+		this.categoryId = categoryId;
 		this.children = children;
 	}
 	
-	public String getCategory() {
-		return category;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	
+	public Category getParent() {
+		return parent;
+	}
+
+	public void setParent(Category parent) {
+		this.parent = parent;
 	}
 	
 	public List<Category> getChildren() {

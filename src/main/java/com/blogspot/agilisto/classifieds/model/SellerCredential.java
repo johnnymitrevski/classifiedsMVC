@@ -16,6 +16,12 @@ public class SellerCredential implements Serializable{
 	String username;
 	String password;
 	
+	public SellerCredential(String username, String password)
+	{
+		this.username = username;
+		this.password = password;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
