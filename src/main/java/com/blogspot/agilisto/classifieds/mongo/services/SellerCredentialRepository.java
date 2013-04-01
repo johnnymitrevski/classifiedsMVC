@@ -1,4 +1,4 @@
-package com.blogspot.agilisto.classifieds.services.mongo;
+package com.blogspot.agilisto.classifieds.mongo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

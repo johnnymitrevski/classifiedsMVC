@@ -1,4 +1,4 @@
-package com.blogspot.agilisto.classifieds.services.mongo;
+package com.blogspot.agilisto.classifieds.mongo.services;
 
 import java.util.List;
 
