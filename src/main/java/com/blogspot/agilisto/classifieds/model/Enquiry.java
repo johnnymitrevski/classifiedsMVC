@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent enquiries made on listings<br>
  */
 @Document(collection = "Enquiry")
-public class Enquiry {
+public class Enquiry implements Serializable {
 	
 	private String id;
 	private String listingId;

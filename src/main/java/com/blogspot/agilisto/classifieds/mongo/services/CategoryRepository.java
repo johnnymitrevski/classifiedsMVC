@@ -1,5 +1,7 @@
 package com.blogspot.agilisto.classifieds.mongo.services;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -41,5 +43,11 @@ public class CategoryRepository implements CategoryService {
 		Category category = this.getCategory(categoryId);
 		mongoTemplate.remove(category, CATEGORY_COLLECTION_NAME);
 	}
+	
+	 @PostConstruct
+	    private void init() {
+		 Category category = new Category("Automotive", null);
+		 mongoTemplate.save(category);
+	 }
 
 }
