@@ -120,7 +120,7 @@
    			<artifactId>mongo-java-driver</artifactId>
    			<version>2.9.1</version>
  		</dependency>
- 
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
