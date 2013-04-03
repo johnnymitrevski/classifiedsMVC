@@ -43,11 +43,4 @@ public class CategoryRepository implements CategoryService {
 		Category category = this.getCategory(categoryId);
 		mongoTemplate.remove(category, CATEGORY_COLLECTION_NAME);
 	}
-	
-	 @PostConstruct
-	    private void init() {
-		 Category category = new Category("Automotive", null);
-		 mongoTemplate.save(category);
-	 }
-
 }

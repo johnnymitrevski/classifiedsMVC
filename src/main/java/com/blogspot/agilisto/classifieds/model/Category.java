@@ -2,9 +2,9 @@ package com.blogspot.agilisto.classifieds.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Vector;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent the listing categories. It uses the modal tree structure with a List of child references.<br>
  */
 @Document(collection = "Category")
-public class Category implements Serializable {
+public class Category {
 	
 	@Id
 	private String categoryId;
@@ -23,6 +23,7 @@ public class Category implements Serializable {
 	{
 		this.categoryId = categoryId;
 		this.parent = parent;
+		this.children = new Vector<Category>();
 	}
 	
 	public String getCategoryId() {
