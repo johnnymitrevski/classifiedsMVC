@@ -1,6 +1,5 @@
 package com.blogspot.agilisto.classifieds.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent a listing on the site.<br>
  */
 @Document(collection = "Listing")
-public class Listing implements Serializable{
+public class Listing {
 	
 	private String id;
 	private String title;

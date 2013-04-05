@@ -1,19 +1,18 @@
 package com.blogspot.agilisto.classifieds.controllers;
 
-import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.blogspot.agilisto.classifieds.model.Category;
-import com.blogspot.agilisto.classifieds.model.Listing;
-import com.blogspot.agilisto.classifieds.model.SellerIdentity;
 import com.blogspot.agilisto.classifieds.services.CategoryService;
 import com.blogspot.agilisto.classifieds.services.ListingService;
 
@@ -62,30 +59,33 @@ public class CategoryController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/category/{categoryId}", method = RequestMethod.GET)
-	public Category getCategory(@PathVariable("categoryId")String categoryId)
+	public Category getCategory(@PathVariable("categoryId")String categoryId) throws Exception
 	{
-		return categoryService.getCategory(categoryId);
+		Category category = categoryService.getCategory(categoryId);
+		
+		if(category == null)
+		{
+			throw new Exception("Category can not be deleted when it has children associated with it");
+		}
+
+		return category;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/category/{categoryId}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteCategory(@PathVariable("categoryId")String categoryId)
+	public void deleteCategory(@PathVariable("categoryId")String categoryId) throws Exception
 	{
 		Category category = categoryService.getCategory(categoryId);
 		
 		if(!listingService.getListings(new Query(Criteria.where("category").is(category))).isEmpty())
 		{
-			Logger log = Logger.getLogger(CategoryController.class.getName());
-			log.warn("Category can not be deleted when it has listings associated with it");
-			return;
+			throw new Exception("Category can not be deleted when it has listings associated with it");
 		}
 		
 		if(!category.getChildren().isEmpty())
 		{
-			Logger log = Logger.getLogger(CategoryController.class.getName());
-			log.warn("Category can not be deleted when it has children associated with it");
-			return;
+			throw new Exception("Category can not be deleted when it has children associated with it");
 		}
 		
 		categoryService.deleteCategory(categoryId);

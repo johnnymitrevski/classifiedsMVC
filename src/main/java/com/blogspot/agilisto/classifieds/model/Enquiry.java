@@ -1,8 +1,5 @@
 package com.blogspot.agilisto.classifieds.model;
 
-import java.io.Serializable;
-
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -10,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent enquiries made on listings<br>
  */
 @Document(collection = "Enquiry")
-public class Enquiry implements Serializable {
+public class Enquiry {
 	
 	private String id;
 	private String listingId;

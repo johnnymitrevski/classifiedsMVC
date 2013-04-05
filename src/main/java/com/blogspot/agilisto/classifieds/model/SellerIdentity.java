@@ -1,7 +1,5 @@
 package com.blogspot.agilisto.classifieds.model;
 
-import java.io.Serializable;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * <li>Used to represent the information set of a seller.<br>
  */
 @Document(collection = "SellerIdentity")
-public class SellerIdentity implements Serializable{
+public class SellerIdentity {
 
 	@Id
 	String username;
