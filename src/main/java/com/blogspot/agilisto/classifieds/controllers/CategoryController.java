@@ -1,18 +1,13 @@
 package com.blogspot.agilisto.classifieds.controllers;
 
 import java.util.List;
-import java.util.zip.DataFormatException;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,10 +57,10 @@ public class CategoryController {
 	public Category getCategory(@PathVariable("categoryId")String categoryId) throws Exception
 	{
 		Category category = categoryService.getCategory(categoryId);
-		
+
 		if(category == null)
 		{
-			throw new Exception("Category can not be deleted when it has children associated with it");
+			throw new ClassifiedsBadRequestException("Category can not be deleted when it has children associated with it");
 		}
 
 		return category;
@@ -80,12 +75,12 @@ public class CategoryController {
 		
 		if(!listingService.getListings(new Query(Criteria.where("category").is(category))).isEmpty())
 		{
-			throw new Exception("Category can not be deleted when it has listings associated with it");
+			throw new ClassifiedsBadRequestException("Category can not be deleted when it has listings associated with it");
 		}
 		
 		if(!category.getChildren().isEmpty())
 		{
-			throw new Exception("Category can not be deleted when it has children associated with it");
+			throw new ClassifiedsBadRequestException("Category can not be deleted when it has children associated with it");
 		}
 		
 		categoryService.deleteCategory(categoryId);

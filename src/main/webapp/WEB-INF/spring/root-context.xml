@@ -4,15 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<bean id="exceptionResolver" class="com.blogspot.agilisto.classifieds.controllers.MySimpleMappingExceptionResolver">
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     	<property name="exceptionMappings">
         	<map>
-    			<entry key="java.lang.Exception" value="data-error" />
-    			<entry key="com.blogspot.agilisto.classifieds.ClassifiedsRuntimeException" value="app-unchecked-error" />
-    			<entry key="com.blogspot.agilisto.classifieds.ClassifiedsCheckedException" value="app-checked-error" />
+    			<entry key="com.blogspot.agilisto.classifieds.controllers.ClassifiedsBadRequestException" value="error/classifieds-error" />
   			</map>	
     	</property>
-    	<property name="defaultErrorView" value="/error/default" />
+    	<property name="defaultErrorView" value="error/data-error" />
     	<property name="warnLogCategory" value="com.blogspot.agilisto.classifieds" />
 	</bean>
 </beans>
