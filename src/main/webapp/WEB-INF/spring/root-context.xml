@@ -10,7 +10,7 @@
     			<entry key="com.blogspot.agilisto.classifieds.controllers.ClassifiedsBadRequestException" value="error/classifieds-error" />
   			</map>	
     	</property>
-    	<property name="defaultErrorView" value="error/data-error" />
+    	<property name="defaultErrorView" value="error/default-error" />
     	<property name="warnLogCategory" value="com.blogspot.agilisto.classifieds" />
 	</bean>
 </beans>

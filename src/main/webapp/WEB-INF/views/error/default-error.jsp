@@ -1,7 +1,7 @@
 <html>
 <body>
  
- 	<h2>Data Error page</h2>
+ 	<h2>Default Error page</h2>
 	<p>${exception.message}
  
 </body>
