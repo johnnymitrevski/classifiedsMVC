@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    	<property name="exceptionMappings">
+        	<map>
+    			<entry key="com.blogspot.agilisto.classifieds.controllers.ClassifiedsBadRequestException" value="error/classifieds-error" />
+  			</map>	
+    	</property>
+    	<property name="defaultErrorView" value="error/default-error" />
+    	<property name="warnLogCategory" value="com.blogspot.agilisto.classifieds" />
+	</bean>
+</beans>

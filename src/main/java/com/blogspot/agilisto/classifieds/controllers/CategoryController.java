@@ -3,9 +3,6 @@ package com.blogspot.agilisto.classifieds.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +33,7 @@ public class CategoryController {
 		Category parent = categoryService.getCategory(parentId);
 		
 		//Create the new category
-		Category category = new Category(categoryId, parent);
-		categoryService.save(category);
+		Category category = categoryService.save(categoryId, parent);
 		
 		if(parent != null)
 		{
@@ -46,24 +42,16 @@ public class CategoryController {
 			childCategories.add(category);
 			
 			//Update parent in database
-			Update update = new Update();
-			update.set("children", childCategories);
-			categoryService.updateCategory(parentId, update);
+			categoryService.updateCategory(parentId, "children", childCategories);
 		}
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/category/{categoryId}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
 	public Category getCategory(@PathVariable("categoryId")String categoryId) throws Exception
 	{
-		Category category = categoryService.getCategory(categoryId);
-
-		if(category == null)
-		{
-			throw new ClassifiedsBadRequestException("Category can not be deleted when it has children associated with it");
-		}
-
-		return category;
+		return categoryService.getCategory(categoryId);
 	}
 	
 	@ResponseBody
@@ -73,11 +61,11 @@ public class CategoryController {
 	{
 		Category category = categoryService.getCategory(categoryId);
 		
-		if(!listingService.getListings(new Query(Criteria.where("category").is(category))).isEmpty())
+		if(!listingService.getListings("category",category).isEmpty())
 		{
 			throw new ClassifiedsBadRequestException("Category can not be deleted when it has listings associated with it");
 		}
-		
+	
 		if(!category.getChildren().isEmpty())
 		{
 			throw new ClassifiedsBadRequestException("Category can not be deleted when it has children associated with it");

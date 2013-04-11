@@ -2,9 +2,6 @@ package com.blogspot.agilisto.classifieds.services;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.blogspot.agilisto.classifieds.model.Listing;
 
 /**
@@ -15,9 +12,9 @@ public interface ListingService {
 	
 	Listing getListing(String id);
 	
-	List<Listing> getListings(Query query);
+	List<Listing> getListings(String key, Object value);
 	
-	void updateListing(String id, Update update);
+	void updateListing(String id, String key, Object value);
 	
 	void deleteListing(String id);
 }

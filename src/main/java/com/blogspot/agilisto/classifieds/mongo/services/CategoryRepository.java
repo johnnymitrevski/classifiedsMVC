@@ -22,8 +22,10 @@ public class CategoryRepository implements CategoryService {
 	public static String CATEGORY_COLLECTION_NAME = "Category";
 	
 	@Override
-	public void save(Category category) {
+	public Category save(String categoryId, Category parentCategory) {
+		Category category = new Category(categoryId, parentCategory);
 		mongoTemplate.save(category, CATEGORY_COLLECTION_NAME);
+		return category;
 	}
 
 	@Override
@@ -32,7 +34,9 @@ public class CategoryRepository implements CategoryService {
 	}
 
 	@Override
-	public void updateCategory(String categoryId, Update update) {
+	public void updateCategory(String categoryId, String key, Object value) {
+		Update update = new Update();
+		update.set(key, value);
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(categoryId)), update, CATEGORY_COLLECTION_NAME);
 	}
 
