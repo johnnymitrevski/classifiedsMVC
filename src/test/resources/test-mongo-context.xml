@@ -11,7 +11,7 @@
  
  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
  	<constructor-arg ref="mongo" />
- 	<constructor-arg name="databaseName" value="classifieds" />
+ 	<constructor-arg name="databaseName" value="test-classifieds" />
  </bean>
  
  <!-- To translate any MongoExceptions thrown in @Repository annotated classes -->

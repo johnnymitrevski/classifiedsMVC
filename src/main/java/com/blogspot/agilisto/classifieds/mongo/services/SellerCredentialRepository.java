@@ -32,7 +32,10 @@ public class SellerCredentialRepository implements SellerCredentialService {
 	}
 
 	@Override
-	public void updateSellerCredential(String username, Update update) {
+	public void updateSellerCredential(String username, String updateKey, Object updateValue) {
+		Update update = new Update();
+		update.set(updateKey, updateValue);
+		
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(username)), update, SELLER_CREDENTIAL_COLLECTION_NAME);
 	}
 

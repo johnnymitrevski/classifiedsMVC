@@ -32,7 +32,10 @@ public class SellerIdentityRepository implements SellerIdentityService {
 	}
 
 	@Override
-	public void updateSellerIdentity(String username, Update update) {
+	public void updateSellerIdentity(String username, String updateKey, Object updateValue) {
+		Update update = new Update();
+		update.set(updateKey, updateValue);
+		
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(username)), update, SELLER_IDENTITY_COLLECTION_NAME);
 	}
 

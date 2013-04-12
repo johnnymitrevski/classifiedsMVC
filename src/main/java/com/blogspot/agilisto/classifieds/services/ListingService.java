@@ -12,9 +12,9 @@ public interface ListingService {
 	
 	Listing getListing(String id);
 	
-	List<Listing> getListings(String key, Object value);
+	List<Listing> getListings(String queryKey, Object queryValue);
 	
-	void updateListing(String id, String key, Object value);
+	void updateListing(String id, String queryKey, Object queryValue);
 	
 	void deleteListing(String id);
 }

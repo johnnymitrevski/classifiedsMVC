@@ -34,16 +34,16 @@ public class ListingRepository implements ListingService {
 	}
 
 	@Override
-	public List<Listing> getListings(String key, Object value) {
+	public List<Listing> getListings(String queryKey, Object queryValue) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where(key).is(value));
+		query.addCriteria(Criteria.where(queryKey).is(queryValue));
 		return mongoTemplate.find(query, Listing.class, LISTING_COLLECTION_NAME);
 	}
 
 	@Override
-	public void updateListing(String id, String key, Object value) {
+	public void updateListing(String id, String updateKey, Object updateValue) {
 		Update update = new Update();
-		update.set(key, value);
+		update.set(updateKey, updateValue);
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(id)), update, LISTING_COLLECTION_NAME);
 	}
 

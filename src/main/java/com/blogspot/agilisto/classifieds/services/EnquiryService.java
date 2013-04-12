@@ -2,9 +2,6 @@ package com.blogspot.agilisto.classifieds.services;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.blogspot.agilisto.classifieds.model.Enquiry;
 
 /**
@@ -15,11 +12,11 @@ public interface EnquiryService {
 	
 	Enquiry getEnquiry(String id);
 	
-	List<Enquiry> getEnquiries(Query query);
+	List<Enquiry> getEnquiries(String queryKey, Object queryValue);
 	
-	void updateEnquiries(Query query, Update update);
+	void updateEnquiries(String queryKey, Object queryValue, String updateKey, Object updateValue);
 	
 	void deleteEnquiry(String id);
 	
-	void deleteEnquries(Query query);
+	void deleteEnquries(String queryKey, Object queryValue);
 }

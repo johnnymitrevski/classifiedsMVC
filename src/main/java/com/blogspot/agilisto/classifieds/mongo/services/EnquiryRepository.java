@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
@@ -33,12 +34,20 @@ public class EnquiryRepository implements EnquiryService {
 	}
 
 	@Override
-	public List<Enquiry> getEnquiries(Query query) {
+	public List<Enquiry> getEnquiries(String queryKey, Object queryValue) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(queryKey).is(queryValue));
+		
 		return mongoTemplate.find(query, Enquiry.class, ENQUIRY_COLLECTION_NAME);
 	}
 
 	@Override
-	public void updateEnquiries(Query query, Update update) {
+	public void updateEnquiries(String queryKey, Object queryValue, String updateKey, Object updateValue) {
+		Update update = new Update();
+		update.set(updateKey, updateValue);
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where(queryKey).is(queryValue));
 		mongoTemplate.updateMulti(query, update, ENQUIRY_COLLECTION_NAME);
 	}
 
@@ -49,7 +58,10 @@ public class EnquiryRepository implements EnquiryService {
 	}
 
 	@Override
-	public void deleteEnquries(Query query) {
+	public void deleteEnquries(String queryKey, Object queryValue) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(queryKey).is(queryValue));
+		
 		mongoTemplate.remove(query, ENQUIRY_COLLECTION_NAME);
 	}
 }

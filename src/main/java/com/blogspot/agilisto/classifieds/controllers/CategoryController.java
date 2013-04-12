@@ -55,9 +55,19 @@ public class CategoryController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/category/{categoryId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/category", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteCategory(@PathVariable("categoryId")String categoryId) throws Exception
+	public void updateCategory(@RequestParam("categoryId")String categoryId, 
+			@RequestParam("updateKey")String updateKey, 
+			@RequestParam("updateValue")Object updateValue) throws Exception
+	{
+		categoryService.updateCategory(categoryId, updateKey, updateValue);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/category", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteCategory(@RequestParam("categoryId")String categoryId) throws Exception
 	{
 		Category category = categoryService.getCategory(categoryId);
 		

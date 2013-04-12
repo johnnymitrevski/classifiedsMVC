@@ -34,10 +34,13 @@ public class CategoryRepository implements CategoryService {
 	}
 
 	@Override
-	public void updateCategory(String categoryId, String key, Object value) {
+	public void updateCategory(String categoryId, String updateKey, Object updateValue) {
 		Update update = new Update();
-		update.set(key, value);
+		update.set(updateKey, updateValue);
+		System.out.println("ID: " + categoryId + " " + updateKey + " " + updateValue);
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(categoryId)), update, CATEGORY_COLLECTION_NAME);
+		System.out.println(mongoTemplate.findById(updateValue, Category.class));
+		System.out.println(mongoTemplate.findById(categoryId, Category.class));
 	}
 
 	@Override

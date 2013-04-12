@@ -2,13 +2,17 @@ package com.blogspot.agilisto.classifieds.controllers;
 
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
+import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -34,6 +38,9 @@ public class CategoryControllerIntegrationTest {
 	@Autowired
 	ListingService listingService;
 	
+	@Autowired
+    MongoTemplate mongoTemplate;
+	
 	private MockMvc mockMvc;
 	
 	@Before
@@ -48,13 +55,61 @@ public class CategoryControllerIntegrationTest {
 				.param("categoryId", "Automotive")
 				.param("parentId", ""))
 				.andExpect(status().isCreated());
+		
+		Category category = mongoTemplate.findById("Automotive", Category.class);
+		
+		Assert.assertEquals(category.getCategoryId(), "Automotive");
+		Assert.assertEquals(category.getParent(), null);
+		Assert.assertEquals(category.getChildren().size(), 0);
 	}
 	
 	@Test
 	public void testGetCategory() throws Exception {
-				
+		
+		testCreateNewCategory();		
+		
 		mockMvc.perform(get("/category/Automotive"))
 		.andExpect(status().isOk())
 		.andExpect(content().string("{\"categoryId\":\"Automotive\",\"parent\":null,\"children\":[]}"));
 	}
-}
+	
+	@Test
+	public void testDeleteCategory() throws Exception {
+		
+		testCreateNewCategory();
+		
+		mockMvc.perform(delete("/category").param("categoryId", "Automotive"))
+		.andExpect(status().isOk());
+		
+		Category category = mongoTemplate.findById("Automotive", Category.class);
+		
+		Assert.assertEquals(category, null);
+	}
+	
+	@Test
+	public void testUpdateCategory() throws Exception {
+		
+		testCreateNewCategory();
+		
+		mockMvc.perform(put("/category").contentType(MediaType.APPLICATION_JSON)
+				.param("categoryId", "Automotive")
+				.param("updateKey", "categoryId")
+				.param("updateValue", "Boats"))
+				.andExpect(status().isOk());
+		
+		Category category = mongoTemplate.findById("Automotive", Category.class);
+		Assert.assertEquals(category, null);
+		
+		category = mongoTemplate.findById("Boats", Category.class);
+		
+		Assert.assertEquals(category.getCategoryId(), "Boats");
+		Assert.assertEquals(category.getParent(), null);
+		Assert.assertEquals(category.getChildren().size(), 0);
+	}
+	
+	@After
+	public void dropDatabase() throws Exception {
+		
+		mongoTemplate.dropCollection("Category");
+	}
+ }

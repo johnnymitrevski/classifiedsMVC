@@ -27,6 +27,7 @@ import org.springframework.web.util.NestedServletException;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post; 
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.server.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.redirectedUrl; 
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.request; 
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
