@@ -30,9 +30,13 @@ public class CategoryController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createNewCategory(@RequestParam("categoryId")String categoryId, @RequestParam("parentId")String parentId)
 	{	
-		Category parent = categoryService.getCategory(parentId);
+		if(categoryService.getCategory(categoryId) != null)
+		{
+			throw new ClassifiedsBadRequestException("Category with id: " + categoryId + " already exists.");
+		}
 		
-		//Create the new category
+		Category parent = categoryService.getCategory(parentId);
+
 		Category category = categoryService.save(categoryId, parent);
 		
 		if(parent != null)

@@ -45,7 +45,7 @@ import com.blogspot.agilisto.classifieds.services.ListingService;
 
 public class CategoryControllerTest{
 	
-	private static final String CATEGORY_ID_AUTOMOTIVE_PARENT_NULL_CHILDREN = "{\"categoryId\":\"Automotive\",\"parent\":null,\"children\":[]}";
+	private static final String CATEGORY_ID_AUTOMOTIVE_PARENT_NULL_CHILDREN = "{\"categoryId\":\"Automotive\",\"parent\":null,\"id\":null,\"children\":[]}";
 
 	@InjectMocks
 	private CategoryController controller = new CategoryController();
@@ -120,7 +120,7 @@ public class CategoryControllerTest{
 		Category category = new Category("Automotive", null);
 		Mockito.stub(mockCategoryService.getCategory("Automotive")).toReturn(category);
 		
-		mockMvc.perform(delete("/category/Automotive"))
+		mockMvc.perform(delete("/category").param("categoryId", "Automotive"))
 		.andExpect(status().isOk());
 	}
 	
@@ -137,7 +137,7 @@ public class CategoryControllerTest{
 		Mockito.stub(mockCategoryService.getCategory("Automotive")).toReturn(parent);
 		
 		try {
-			mockMvc.perform(delete("/category/Automotive"));
+			mockMvc.perform(delete("/category").param("categoryId", "Automotive"));
 		}
 		catch(Exception ex) {
 			Assert.assertTrue(ex.getMessage().contains("Category can not be deleted when it has children associated with it"));
@@ -155,7 +155,7 @@ public class CategoryControllerTest{
 		Mockito.stub(mockListingService.getListings(Mockito.anyString(), Mockito.any(Category.class))).toReturn(listings);
 				
 		try {
-			mockMvc.perform(delete("/category/Automotive"));
+			mockMvc.perform(delete("/category").param("categoryId", "Automotive"));
 		}
 		catch(Exception ex) {
 			Assert.assertTrue(ex.getMessage().contains("Category can not be deleted when it has listings associated with it"));

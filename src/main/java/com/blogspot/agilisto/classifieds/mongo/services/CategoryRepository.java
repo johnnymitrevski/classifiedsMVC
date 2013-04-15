@@ -30,22 +30,22 @@ public class CategoryRepository implements CategoryService {
 
 	@Override
 	public Category getCategory(String categoryId) {
-		return mongoTemplate.findById(categoryId, Category.class, CATEGORY_COLLECTION_NAME);
+		return mongoTemplate.findOne(findCategoryQuery(categoryId), Category.class, CATEGORY_COLLECTION_NAME);
+	}
+	
+	private Query findCategoryQuery(String categoryId) {
+		return new Query(Criteria.where("categoryId").is(categoryId));
 	}
 
 	@Override
 	public void updateCategory(String categoryId, String updateKey, Object updateValue) {
 		Update update = new Update();
 		update.set(updateKey, updateValue);
-		System.out.println("ID: " + categoryId + " " + updateKey + " " + updateValue);
-		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(categoryId)), update, CATEGORY_COLLECTION_NAME);
-		System.out.println(mongoTemplate.findById(updateValue, Category.class));
-		System.out.println(mongoTemplate.findById(categoryId, Category.class));
+		mongoTemplate.updateFirst(findCategoryQuery(categoryId), update, CATEGORY_COLLECTION_NAME);
 	}
 
 	@Override
 	public void deleteCategory(String categoryId) {
-		Category category = this.getCategory(categoryId);
-		mongoTemplate.remove(category, CATEGORY_COLLECTION_NAME);
+		mongoTemplate.remove(findCategoryQuery(categoryId), CATEGORY_COLLECTION_NAME);
 	}
 }
