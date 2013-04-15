@@ -1,45 +1,27 @@
 package com.blogspot.agilisto.classifieds.controllers;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.ExpectedException;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.server.MockMvc;
-import org.springframework.test.web.server.ResultMatcher;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.View;
-import org.springframework.web.util.NestedServletException;
-
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.post; 
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.server.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.redirectedUrl; 
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.request; 
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.server.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.content;
 
 import com.blogspot.agilisto.classifieds.model.Category;
 import com.blogspot.agilisto.classifieds.model.Listing;
-import com.blogspot.agilisto.classifieds.model.SellerIdentity;
-import com.blogspot.agilisto.classifieds.mongo.services.CategoryRepository;
 import com.blogspot.agilisto.classifieds.services.CategoryService;
 import com.blogspot.agilisto.classifieds.services.ListingService;
 
@@ -112,7 +94,7 @@ public class CategoryControllerTest{
 
 		Mockito.verify(mockCategoryService).getCategory(parentCategoryId);
 		Mockito.verify(mockCategoryService).save(childCategoryId, parent);
-		Mockito.verify(mockCategoryService).updateCategory(Mockito.eq(parentCategoryId), Mockito.eq("children"), Mockito.any(List.class));
+		Mockito.verify(mockCategoryService).updateCategory(Matchers.eq(parentCategoryId), Matchers.eq("children"), Matchers.any(List.class));
 	}
 	
 	@Test
@@ -152,7 +134,7 @@ public class CategoryControllerTest{
 		Vector<Listing> listings = new Vector<Listing>();
 		listings.add(new Listing("title", "description", 30.0, null, null, null, null));
 		
-		Mockito.stub(mockListingService.getListings(Mockito.anyString(), Mockito.any(Category.class))).toReturn(listings);
+		Mockito.stub(mockListingService.getListings(Matchers.anyString(), Matchers.any(Category.class))).toReturn(listings);
 				
 		try {
 			mockMvc.perform(delete("/category").param("categoryId", "Automotive"));

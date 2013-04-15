@@ -71,11 +71,12 @@ public class CategoryControllerIntegrationTest {
 	public void testGetCategory() throws Exception {
 		
 		testCreateNewCategory();		
-		String categoryId = "{\"categoryId\":\"Automotive\"";
-		
+
 		mockMvc.perform(get("/category/Automotive"))
 		.andExpect(status().isOk())
-		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString(categoryId)));
+		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("\"categoryId\":\"Automotive\"")))
+		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("parent\":null")))
+		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("children\":[]")));
 	}
 	
 	@Test
@@ -106,7 +107,6 @@ public class CategoryControllerIntegrationTest {
 		Assert.assertEquals(category, null);
 		
 		category = mongoTemplate.findOne(findCategoryQuery("Boats"), Category.class);
-		
 		Assert.assertEquals(category.getCategoryId(), "Boats");
 		Assert.assertEquals(category.getParent(), null);
 		Assert.assertEquals(category.getChildren().size(), 0);
