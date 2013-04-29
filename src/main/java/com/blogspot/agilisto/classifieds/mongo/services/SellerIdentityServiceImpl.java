@@ -14,7 +14,7 @@ import com.blogspot.agilisto.classifieds.services.SellerIdentityService;
  * Concrete implementation of the {@link SellerIdentityService} CRUD interface using mongoDB 
  */
 @Service
-public class SellerIdentityRepository implements SellerIdentityService {
+public class SellerIdentityServiceImpl implements SellerIdentityService {
 
 	@Autowired
     MongoTemplate mongoTemplate;
@@ -28,7 +28,7 @@ public class SellerIdentityRepository implements SellerIdentityService {
 
 	@Override
 	public SellerIdentity getSellerIdentity(String username) {
-		return mongoTemplate.findById(username, SellerIdentity.class, SELLER_IDENTITY_COLLECTION_NAME);
+		return mongoTemplate.findOne(new Query(Criteria.where("username").is(username)), SellerIdentity.class, SELLER_IDENTITY_COLLECTION_NAME);
 	}
 
 	@Override

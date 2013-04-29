@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SellerIdentity {
 
 	@Id
+	String id;
 	String username;
 	String email;
 	String firstName;
@@ -36,6 +37,10 @@ public class SellerIdentity {
 		this.postcode = postcode;
 		this.location = location;
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	public String getUsername() {

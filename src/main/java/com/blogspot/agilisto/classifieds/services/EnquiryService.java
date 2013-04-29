@@ -8,9 +8,7 @@ import com.blogspot.agilisto.classifieds.model.Enquiry;
  * CRUD interface for Enquiry domain model
  */
 public interface EnquiryService {
-	void save(Enquiry enquiry);
-	
-	Enquiry getEnquiry(String id);
+	String save(Enquiry enquiry);
 	
 	List<Enquiry> getEnquiries(String queryKey, Object queryValue);
 	
@@ -18,5 +16,5 @@ public interface EnquiryService {
 	
 	void deleteEnquiry(String id);
 	
-	void deleteEnquries(String queryKey, Object queryValue);
+	void deleteEnquiries(String queryKey, Object queryValue);
 }

@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SellerCredential {
 	
 	@Id
+	String id;
 	String username;
 	String password;
 	

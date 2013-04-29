@@ -98,6 +98,27 @@ public class CategoryControllerTest{
 	}
 	
 	@Test
+	public void createNewCategoryThatAlreadyExistsExpectException() throws Exception
+	{
+		Category category = new Category("Automotive", null);
+		Mockito.stub(mockCategoryService.getCategory("Automotive")).toReturn(category);
+		
+		try
+		{
+			mockMvc.perform(post("/category").contentType(MediaType.APPLICATION_JSON)
+				.param("categoryId", "Automotive")
+				.param("parentId", ""));
+		}
+		catch(Exception ex)
+		{
+			Assert.assertTrue(ex.getMessage().contains("Category with id: Automotive already exists"));
+			return;
+		}
+		
+		Assert.assertFalse("Should have thrown an exception", true);
+	}
+	
+	@Test
 	public void testDeleteCategory() throws Exception {
 		Category category = new Category("Automotive", null);
 		Mockito.stub(mockCategoryService.getCategory("Automotive")).toReturn(category);
@@ -132,7 +153,7 @@ public class CategoryControllerTest{
 	@Test
 	public void testDeleteCategoryWithListingsExpectExceptionThrown() throws Exception {
 		Vector<Listing> listings = new Vector<Listing>();
-		listings.add(new Listing("title", "description", 30.0, null, null, null, null));
+		listings.add(new Listing("title", "description", 30.0, null, null, 0l, 0l));
 		
 		Mockito.stub(mockListingService.getListings(Matchers.anyString(), Matchers.any(Category.class))).toReturn(listings);
 				

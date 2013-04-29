@@ -3,6 +3,7 @@ package com.blogspot.agilisto.classifieds.model;
 import java.util.List;
 import java.util.Vector;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Category")
 public class Category {
 	
+	@Id
 	private String id;
 	private String categoryId;
 	private Category parent;

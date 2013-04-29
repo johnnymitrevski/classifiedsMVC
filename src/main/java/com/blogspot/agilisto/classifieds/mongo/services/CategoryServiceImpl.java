@@ -14,7 +14,7 @@ import com.blogspot.agilisto.classifieds.services.CategoryService;
  * Concrete implementation of the {@link CategoryService} CRUD interface using mongoDB 
  */
 @Service
-public class CategoryRepository implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
     MongoTemplate mongoTemplate;

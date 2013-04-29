@@ -1,7 +1,6 @@
 package com.blogspot.agilisto.classifieds.model;
 
-import java.util.Date;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -11,25 +10,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Listing")
 public class Listing {
 	
+	@Id
 	private String id;
 	private String title;
 	private String description;
-	private Double price;
-	private Category category;
-	private SellerIdentity sellerIdentity;
-	private Date listingDate;
-	private Date expiryDate;
+	private double price;
+	private String categoryForiegnKey;
+	private String sellerIdentityForiegnKey;
+	private long listingTime;
+	private long expiryTime;
 	
-	public Listing(String title, String description, Double price, Category category, SellerIdentity sellerIdentity,
-					Date listingDate, Date expiryDate)
+	public Listing(String title, String description, double price, String categoryForiegnKey, String sellerIdentityForiegnKey,
+					long listingTime, long expiryTime)
 	{
 		this.title = title;
 		this.description = description;
 		this.price = price;
-		this.category = category;
-		this.sellerIdentity = sellerIdentity;
-		this.listingDate = listingDate;
-		this.expiryDate = expiryDate;
+		this.categoryForiegnKey = categoryForiegnKey;
+		this.sellerIdentityForiegnKey = sellerIdentityForiegnKey;
+		this.listingTime = listingTime;
+		this.expiryTime = expiryTime;
 	}
 	
 	public String getId() {
@@ -51,43 +51,43 @@ public class Listing {
 		this.description = description;
 	}
 	
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
-	public Category getCategory() {
-		return category;
+	public String getCategoryForiegnKey() {
+		return categoryForiegnKey;
 	}
 	
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryForiegnKey(String categoryForiegnKey) {
+		this.categoryForiegnKey = categoryForiegnKey;
 	}
 	
-	public SellerIdentity getSellerIdentity() {
-		return sellerIdentity;
+	public String getSellerIdentityForiegnKey() {
+		return sellerIdentityForiegnKey;
 	}
 	
-	public void setSellerIdentity(SellerIdentity sellerIdentity) {
-		this.sellerIdentity = sellerIdentity;
+	public void setSellerIdentity(String sellerIdentityForiegnKey) {
+		this.sellerIdentityForiegnKey = sellerIdentityForiegnKey;
 	}
 	
-	public Date getListingDate() {
-		return listingDate;
+	public long getListingTime() {
+		return listingTime;
 	}
 	
-	public void setListingDate(Date listingDate) {
-		this.listingDate = listingDate;
+	public void setListingTime(long listingTime) {
+		this.listingTime = listingTime;
 	}
 	
-	public Date getExpiryDate() {
-		return expiryDate;
+	public long getExpiryTime() {
+		return expiryTime;
 	}
 	
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
+	public void setExpiryTime(long expiryTime) {
+		this.expiryTime = expiryTime;
 	}
 }

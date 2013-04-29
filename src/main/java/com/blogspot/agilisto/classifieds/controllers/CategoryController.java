@@ -32,7 +32,7 @@ public class CategoryController {
 	{	
 		if(categoryService.getCategory(categoryId) != null)
 		{
-			throw new ClassifiedsBadRequestException("Category with id: " + categoryId + " already exists.");
+			throw new ClassifiedsBadRequestException("Category with id: " + categoryId + " already exists");
 		}
 		
 		Category parent = categoryService.getCategory(parentId);

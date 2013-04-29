@@ -14,7 +14,7 @@ import com.blogspot.agilisto.classifieds.services.SellerCredentialService;
  * Concrete implementation of the {@link SellerCredentialService} CRUD interface using mongoDB 
  */
 @Service
-public class SellerCredentialRepository implements SellerCredentialService {
+public class SellerCredentialServiceImpl implements SellerCredentialService {
 
 	@Autowired
     MongoTemplate mongoTemplate;

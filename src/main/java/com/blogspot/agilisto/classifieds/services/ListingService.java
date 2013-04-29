@@ -8,13 +8,14 @@ import com.blogspot.agilisto.classifieds.model.Listing;
  * CRUD interface for Listing domain model
  */
 public interface ListingService {
-	void save(Listing listing);
+	
+	String save(Listing listing);
 	
 	Listing getListing(String id);
 	
 	List<Listing> getListings(String queryKey, Object queryValue);
 	
-	void updateListing(String id, String queryKey, Object queryValue);
+	void updateListing(String id, String updateKey, Object updateValue);
 	
 	void deleteListing(String id);
 }
