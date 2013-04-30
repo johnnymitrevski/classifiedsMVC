@@ -6,11 +6,14 @@ import com.blogspot.agilisto.classifieds.model.SellerCredential;
  * CRUD interface for SellerCredential domain model
  */
 public interface SellerCredentialService {
-	void save(SellerCredential sellerCredential);
 	
-	SellerCredential getSellerCredential(String username);
+	boolean doesUsernameExist(String username);
 	
-	void updateSellerCredential(String username, String queryKey, Object queryValue);
+	String save(SellerCredential sellerCredential);
 	
-	void deleteSellerCredential(String username);
+	void updateSellerCredential(String username, String password, String queryKey, Object queryValue);
+	
+	void deleteSellerCredential(String username, String password);
+	
+	void validateUsernamePassword(String username, String password);
 }

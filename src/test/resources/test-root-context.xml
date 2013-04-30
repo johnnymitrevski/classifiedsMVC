@@ -8,6 +8,7 @@
     	<property name="exceptionMappings">
         	<map>
     			<entry key="com.blogspot.agilisto.classifieds.controllers.ClassifiedsBadRequestException" value="error/classifieds-error" />
+    			<entry key="com.blogspot.agilisto.classifieds.services.ClassifiedsServicesException" value="error/classifieds-error" />
   			</map>	
     	</property>
     	<property name="defaultErrorView" value="error/default-error" />

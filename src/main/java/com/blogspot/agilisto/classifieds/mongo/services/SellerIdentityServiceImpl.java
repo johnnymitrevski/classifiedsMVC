@@ -22,8 +22,9 @@ public class SellerIdentityServiceImpl implements SellerIdentityService {
 	public static String SELLER_IDENTITY_COLLECTION_NAME = "SellerIdentity";
 	
 	@Override
-	public void save(SellerIdentity sellerIdentity) {
+	public String save(SellerIdentity sellerIdentity) {
 		mongoTemplate.save(sellerIdentity, SELLER_IDENTITY_COLLECTION_NAME);
+		return sellerIdentity.getId();
 	}
 
 	@Override
