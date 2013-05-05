@@ -24,11 +24,15 @@ public class CategoryController {
 	
 	@Autowired
 	ListingService listingService;
+	
+	@Autowired
+	ControllerHandler controllerHandler;
 
 	@ResponseBody
 	@RequestMapping(value = "/category", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void createNewCategory(@RequestParam("categoryId")String categoryId, @RequestParam("parentId")String parentId)
+	public void createNewCategory(@RequestParam("categoryId")String categoryId, 
+			@RequestParam("parentId")String parentId)
 	{	
 		if(categoryService.getCategory(categoryId) != null)
 		{
@@ -87,4 +91,6 @@ public class CategoryController {
 		
 		categoryService.deleteCategory(categoryId);
 	}
+	
+
 }

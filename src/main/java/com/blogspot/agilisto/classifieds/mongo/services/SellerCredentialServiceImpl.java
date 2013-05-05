@@ -7,9 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.blogspot.agilisto.classifieds.controllers.ClassifiedsBadRequestException;
 import com.blogspot.agilisto.classifieds.model.SellerCredential;
-import com.blogspot.agilisto.classifieds.services.ClassifiedsServicesException;
 import com.blogspot.agilisto.classifieds.services.SellerCredentialService;
 
 /**
@@ -36,17 +34,12 @@ public class SellerCredentialServiceImpl implements SellerCredentialService {
 	@Override
 	public String save(SellerCredential sellerCredential) {
 		
-		if(doesUsernameExist(sellerCredential.getUsername())) {
-			throw new ClassifiedsServicesException("Username: " + sellerCredential.getUsername() + " already exists");
-		}
-		
 		mongoTemplate.save(sellerCredential, SELLER_CREDENTIAL_COLLECTION_NAME);
 		return sellerCredential.getId();
 	}
 
 	@Override
-	public void updateSellerCredential(String username, String password, String updateKey, Object updateValue) {
-		validateUsernamePassword(username, password);
+	public void updateSellerCredential(String username, String updateKey, Object updateValue) {
 		
 		Update update = new Update();
 		update.set(updateKey, updateValue);
@@ -56,22 +49,21 @@ public class SellerCredentialServiceImpl implements SellerCredentialService {
 	}
 
 	@Override
-	public void deleteSellerCredential(String username, String password) {
-			validateUsernamePassword(username, password);
-			
-			//delete listings
-			
+	public void deleteSellerCredential(String username) {
+
 			mongoTemplate.remove(findByUsernameQuery(username), SellerCredential.class);
 	}
 
 	@Override
-	public void validateUsernamePassword(String username, String password) throws ClassifiedsBadRequestException {
+	public boolean validateUsernamePassword(String username, String password) {
 		SellerCredential sellerCredential = mongoTemplate.findOne(findByUsernameQuery(username), SellerCredential.class);
 		
-		if(!sellerCredential.getPassword().equals(password))
+		if(sellerCredential.getPassword().equals(password))
 		{
-			throw new ClassifiedsServicesException("username and password combination do not match");
+			return true;
 		}
+		
+		return false;
 	}
 
 }

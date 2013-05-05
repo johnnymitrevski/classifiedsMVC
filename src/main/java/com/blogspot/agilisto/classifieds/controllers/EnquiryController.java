@@ -1,10 +1,12 @@
 package com.blogspot.agilisto.classifieds.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +71,7 @@ public class EnquiryController {
 	@ResponseBody
 	@RequestMapping(value = "/enquiries", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
+	@ExceptionHandler({Exception.class, IOException.class})
 	public void deleteEnquiries(@RequestParam("queryKey")String queryKey, @RequestParam("queryValue")String queryValue)
 	{
 		enquiryService.deleteEnquiries(queryKey, queryValue);

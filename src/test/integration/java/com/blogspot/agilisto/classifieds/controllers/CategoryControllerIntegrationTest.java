@@ -20,12 +20,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.server.MockMvc;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
 import com.blogspot.agilisto.classifieds.model.Category;
 import com.blogspot.agilisto.classifieds.services.CategoryService;
 import com.blogspot.agilisto.classifieds.services.ListingService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/test-servlet-context.xml", "/test-root-context.xml", "/test-mongo-context.xml"})
+@ContextConfiguration({"/test-servlet-context.xml", "/test-mongo-context.xml"})
 @WebAppConfiguration
 public class CategoryControllerIntegrationTest {
 
@@ -41,11 +43,14 @@ public class CategoryControllerIntegrationTest {
 	@Autowired
     MongoTemplate mongoTemplate;
 	
+	@Autowired
+    private WebApplicationContext wac;
+	
 	private MockMvc mockMvc;
 	
 	@Before
 	public void setup() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+		mockMvc = MockMvcBuilders.webApplicationContextSetup(wac).build();
 	}
 	
 	@Test

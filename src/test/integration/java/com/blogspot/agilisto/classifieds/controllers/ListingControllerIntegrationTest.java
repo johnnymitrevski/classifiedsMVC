@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.server.MockMvc;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.blogspot.agilisto.classifieds.model.Category;
 import com.blogspot.agilisto.classifieds.model.Listing;
@@ -31,7 +32,7 @@ import com.blogspot.agilisto.classifieds.services.ListingService;
 import com.blogspot.agilisto.classifieds.services.SellerIdentityService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/test-servlet-context.xml", "/test-root-context.xml", "/test-mongo-context.xml"})
+@ContextConfiguration({"/test-servlet-context.xml", "/test-mongo-context.xml"})
 @WebAppConfiguration
 public class ListingControllerIntegrationTest {
 
@@ -51,13 +52,16 @@ public class ListingControllerIntegrationTest {
 	SellerIdentityService sellerIdentityService;
 	
 	@Autowired
+    WebApplicationContext wac;
+	
+	@Autowired
     MongoTemplate mongoTemplate;
 	
-	private MockMvc mockListingsMvc;
+	private MockMvc mockMvc;
 	
 	@Before
 	public void setup() throws Exception {
-		mockListingsMvc = MockMvcBuilders.standaloneSetup(listingController).build();
+		mockMvc = MockMvcBuilders.webApplicationContextSetup(wac).build();
 	}
 	
 	@Test
@@ -76,7 +80,7 @@ public class ListingControllerIntegrationTest {
 		long listingTime = System.currentTimeMillis();
 		long expiryTime = listingTime + (30 * 24 * 60 * 60 * 1000);
 		
-		mockListingsMvc.perform(post("/listing").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/listing").contentType(MediaType.APPLICATION_JSON)
 				.param("title", "Listing title")
 				.param("description", "Description of listing")
 				.param("price", "35.00")
@@ -103,7 +107,7 @@ public class ListingControllerIntegrationTest {
 		Listing listing = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);
 		mongoTemplate.save(listing, ListingServiceImpl.LISTING_COLLECTION_NAME);
 		
-		mockListingsMvc.perform(get("/listing").param("id", listing.getId()))
+		mockMvc.perform(get("/listing").param("id", listing.getId()))
 		.andExpect(status().isOk())
 		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("\"title\":\"title\"")))
 		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("\"description\":\"description\"")))
@@ -122,7 +126,7 @@ public class ListingControllerIntegrationTest {
 		mongoTemplate.save(listing1, ListingServiceImpl.LISTING_COLLECTION_NAME);
 		mongoTemplate.save(listing2, ListingServiceImpl.LISTING_COLLECTION_NAME);
 		
-		mockListingsMvc.perform(get("/listings").param("queryKey", "sellerIdentityForiegnKey")
+		mockMvc.perform(get("/listings").param("queryKey", "sellerIdentityForiegnKey")
 				.param("queryValue", listing1.getSellerIdentityForiegnKey()))
 		.andExpect(status().isOk())
 		.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString("\"title\":\"title1\"")))
@@ -147,7 +151,7 @@ public class ListingControllerIntegrationTest {
 		Listing listing = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);
 		mongoTemplate.save(listing, ListingServiceImpl.LISTING_COLLECTION_NAME);
 		
-		mockListingsMvc.perform(delete("/listing").param("id", listing.getId()))
+		mockMvc.perform(delete("/listing").param("id", listing.getId()))
 		.andExpect(status().isOk());
 		
 		Assert.assertTrue("Expected to be null", mongoTemplate.findById(listing.getId(), Listing.class) == null);
@@ -160,7 +164,7 @@ public class ListingControllerIntegrationTest {
 		mongoTemplate.save(listing, ListingServiceImpl.LISTING_COLLECTION_NAME);
 		String newTitle = "New Title";
 		
-		mockListingsMvc.perform(put("/listing").param("id",listing.getId()).param("updateKey", "title").param("updateValue", newTitle)).andExpect(status().isOk());
+		mockMvc.perform(put("/listing").param("id",listing.getId()).param("updateKey", "title").param("updateValue", newTitle)).andExpect(status().isOk());
 		
 		Listing result = mongoTemplate.findById(listing.getId(), Listing.class);
 		

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.blogspot.agilisto.classifieds.model.SellerCredential;
 import com.blogspot.agilisto.classifieds.model.SellerIdentity;
+import com.blogspot.agilisto.classifieds.services.ListingService;
 import com.blogspot.agilisto.classifieds.services.SellerCredentialService;
 import com.blogspot.agilisto.classifieds.services.SellerIdentityService;
 
@@ -23,6 +24,9 @@ public class SellerController {
 	@Autowired
 	SellerCredentialService sellerCredentialService;
 	
+	@Autowired
+	ListingService listingService;
+	
 	@ResponseBody
 	@RequestMapping(value = "/checkUserExists", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
@@ -34,7 +38,7 @@ public class SellerController {
 	@ResponseBody
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public String createNewListing(@RequestParam("username")String username, @RequestParam("password")String password, 
+	public String createNewSeller(@RequestParam("username")String username, @RequestParam("password")String password, 
 			@RequestParam("email")String email, @RequestParam("firstName")String firstName,
 			@RequestParam("lastName")String lastName, @RequestParam("street")String street,
 			@RequestParam("suburb")String suburb, @RequestParam("state")String state, 
@@ -47,38 +51,59 @@ public class SellerController {
 		SellerCredential sellerCredential = new SellerCredential(username, password);
 		sellerCredentialService.save(sellerCredential);
 		
-		double[] location = {Double.valueOf(latitude).doubleValue(), Double.valueOf(longitude).doubleValue()};
+		double[] location = null;
+		
+		if(latitude != "" && longitude != "")
+		{
+			location = new double[]{Double.valueOf(latitude).doubleValue(), Double.valueOf(longitude).doubleValue()};
+		}
 		
 		SellerIdentity sellerIdentity = new SellerIdentity(username, email, firstName, lastName, street, suburb, state, postcode, country, location, phoneNumber);
 		return sellerIdentityService.save(sellerIdentity);		
 	}
 
 	private void inputValidation(String username, String password, String email, String firstName, String lastName) {
-		if(username == null || password == null || email == null || firstName == null || lastName == null)
+		if(username == "" || password == "" || email == "" || firstName == "" || lastName == "")
 		{
 			throw new ClassifiedsBadRequestException("Empty fields not allowed");
 		}
 		
-		if(username.contains(password) || password.contains(password) )
+		if(username.contains(password) || password.contains(username) )
 		{
 			throw new ClassifiedsBadRequestException("username / password must be different");
 		}
 		
-		if(username.length() <= 5)
+		if(username.length() <= 5 || password.length() <= 5)
 		{
-			throw new ClassifiedsBadRequestException("username must be greater than 5 characters");
+			throw new ClassifiedsBadRequestException("username/password must be greater than 5 characters");
 		}
 		
-		if(password.length() <= 5 && password.matches("")) //TODO add regex
+		if(sellerCredentialService.doesUsernameExist(username))
 		{
-			throw new ClassifiedsBadRequestException("password must be greater than 5 characters and contain a number as well as a character");
+			throw new ClassifiedsBadRequestException("username: " + username + " already exists");
 		}
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public SellerIdentity getNewListing(@RequestParam("username")String username) {
+	public SellerIdentity getSeller(@RequestParam("username")String username) {
 		return sellerIdentityService.getSellerIdentity(username);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/user", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteSeller(@RequestParam("username")String username) {
+		SellerIdentity sellerIdentity = sellerIdentityService.getSellerIdentity(username);
+		
+		if(sellerIdentity == null)
+		{
+			throw new ClassifiedsBadRequestException("username: " + username + " does not exist");
+		}
+		
+		listingService.deleteListings(sellerIdentity.getId());
+		sellerIdentityService.deleteSellerIdentity(username);
+		sellerCredentialService.deleteSellerCredential(username);
 	}
 }

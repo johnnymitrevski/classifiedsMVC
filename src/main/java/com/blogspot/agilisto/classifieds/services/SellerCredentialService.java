@@ -11,9 +11,9 @@ public interface SellerCredentialService {
 	
 	String save(SellerCredential sellerCredential);
 	
-	void updateSellerCredential(String username, String password, String queryKey, Object queryValue);
+	void updateSellerCredential(String username, String queryKey, Object queryValue);
 	
-	void deleteSellerCredential(String username, String password);
+	void deleteSellerCredential(String username);
 	
-	void validateUsernamePassword(String username, String password);
+	boolean validateUsernamePassword(String username, String password);
 }

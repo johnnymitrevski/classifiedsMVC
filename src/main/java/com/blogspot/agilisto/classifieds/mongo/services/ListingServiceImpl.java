@@ -52,4 +52,10 @@ public class ListingServiceImpl implements ListingService {
 	public void deleteListing(String id) {
 		mongoTemplate.remove(new Query(Criteria.where("_id").is(id)),Listing.class);
 	}
+
+	@Override
+	public void deleteListings(String sellerIdentityId) {
+		mongoTemplate.remove(new Query(Criteria.where("sellerIdentityForiegnKey").is(sellerIdentityId)),Listing.class);
+		
+	}
 }
