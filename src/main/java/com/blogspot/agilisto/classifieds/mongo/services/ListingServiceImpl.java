@@ -47,6 +47,13 @@ public class ListingServiceImpl implements ListingService {
 		update.set(updateKey, updateValue);
 		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(id)), update, Listing.class);
 	}
+	
+	@Override
+	public void updateListings(String queryKey, Object queryValue, String updateKey, Object updateValue) {
+		Update update = new Update();
+		update.set(updateKey, updateValue);
+		mongoTemplate.updateMulti(new Query(Criteria.where(queryKey).is(queryValue)), update, Listing.class);
+	}
 
 	@Override
 	public void deleteListing(String id) {
@@ -54,8 +61,7 @@ public class ListingServiceImpl implements ListingService {
 	}
 
 	@Override
-	public void deleteListings(String sellerIdentityId) {
-		mongoTemplate.remove(new Query(Criteria.where("sellerIdentityForiegnKey").is(sellerIdentityId)),Listing.class);
-		
+	public void deleteListings(String queryKey, Object queryValue) {
+		mongoTemplate.remove(new Query(Criteria.where(queryKey).is(queryValue)),Listing.class);	
 	}
 }

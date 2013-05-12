@@ -3,6 +3,8 @@ package com.blogspot.agilisto.classifieds.controllers;
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.server.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -36,6 +38,9 @@ import com.blogspot.agilisto.classifieds.services.SellerIdentityService;
 @WebAppConfiguration
 public class ListingControllerIntegrationTest {
 
+	@Autowired
+	SellerController sellerController;
+	
 	@Autowired 
 	ListingController listingController;
 	
@@ -171,11 +176,30 @@ public class ListingControllerIntegrationTest {
 		Assert.assertEquals(result.getTitle(), newTitle);
 	}
 	
+	@Test
+	public void testUpdateListings() throws Exception
+	{
+		Listing listing1 = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);
+		Listing listing2 = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);
+		
+		mongoTemplate.save(listing1, ListingServiceImpl.LISTING_COLLECTION_NAME);
+		mongoTemplate.save(listing2, ListingServiceImpl.LISTING_COLLECTION_NAME);
+		
+		String newTitle = "New Title";
+		
+		mockMvc.perform(put("/listings").param("queryKey","sellerIdentityForiegnKey").param("queryValue", "123").param("updateKey", "title").param("updateValue", newTitle)).andExpect(status().isOk());
+		
+		List<Listing> result = mongoTemplate.find(new Query(Criteria.where("title").is(newTitle)), Listing.class);
+		
+		Assert.assertEquals(result.size(), 2);
+	}
+	
 	@After
 	public void dropDatabase() throws Exception {
 		
 		mongoTemplate.dropCollection("Category");
 		mongoTemplate.dropCollection("Listing");
 		mongoTemplate.dropCollection("SellerIdentity");
+		mongoTemplate.dropCollection("SellerCredential");
 	}
 }

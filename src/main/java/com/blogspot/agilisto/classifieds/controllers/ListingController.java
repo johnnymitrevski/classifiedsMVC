@@ -89,4 +89,12 @@ public class ListingController {
 		
 		listingService.updateListing(id, updateKey, updateValue);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/listings", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateListings(@RequestParam("queryKey")String queryKey, @RequestParam("queryValue")String queryValue, @RequestParam("updateKey")String updateKey, @RequestParam("updateValue")String updateValue) {
+		
+		listingService.updateListings(queryKey, queryValue, updateKey, updateValue);
+	}
 }

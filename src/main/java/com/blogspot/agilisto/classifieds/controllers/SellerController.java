@@ -102,8 +102,31 @@ public class SellerController {
 			throw new ClassifiedsBadRequestException("username: " + username + " does not exist");
 		}
 		
-		listingService.deleteListings(sellerIdentity.getId());
+		listingService.deleteListings("sellerIdentityForiegnKey", sellerIdentity.getId());
 		sellerIdentityService.deleteSellerIdentity(username);
 		sellerCredentialService.deleteSellerCredential(username);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/user", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateSeller(@RequestParam("username")String username, @RequestParam("userKey")String userKey, @RequestParam("userValue")String userValue) {
+		if(userKey == "username" || userKey == "password")
+		{
+			sellerCredentialService.updateSellerCredential(username, userKey, userValue);
+		}
+		
+		if(userKey != "password")
+		{
+			sellerIdentityService.updateSellerIdentity(username, userKey, userValue);
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/validateUsernamePassword", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public boolean validateUsernamePassword(@RequestParam("username")String username, @RequestParam("password")String password)
+	{
+		return sellerCredentialService.validateUsernamePassword(username, password);
 	}
 }

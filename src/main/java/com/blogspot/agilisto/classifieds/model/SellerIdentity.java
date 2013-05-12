@@ -34,6 +34,7 @@ public class SellerIdentity {
 		this.street = street;
 		this.suburb = suburb;
 		this.state = state;
+		this.country = country;
 		this.postcode = postcode;
 		this.location = location;
 		this.phoneNumber = phoneNumber;

@@ -17,7 +17,10 @@ public interface ListingService {
 	
 	void updateListing(String id, String updateKey, Object updateValue);
 	
+	void updateListings(String queryKey, Object queryValue, String updateKey, Object updateValue);
+	
 	void deleteListing(String id);
 	
-	void deleteListings(String sellerIdentityId);
+	void deleteListings(String queryKey, Object queryValue);
+
 }
