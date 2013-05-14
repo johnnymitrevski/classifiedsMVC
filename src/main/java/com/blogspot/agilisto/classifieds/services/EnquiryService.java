@@ -5,7 +5,7 @@ import java.util.List;
 import com.blogspot.agilisto.classifieds.model.Enquiry;
 
 /**
- * CRUD interface for Enquiry domain model
+ * CRUD service for Enquiry domain model
  */
 public interface EnquiryService {
 	
