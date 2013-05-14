@@ -37,7 +37,7 @@ public class SellerIdentityServiceImpl implements SellerIdentityService {
 		Update update = new Update();
 		update.set(updateKey, updateValue);
 		
-		mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(username)), update, SELLER_IDENTITY_COLLECTION_NAME);
+		mongoTemplate.updateFirst(new Query(Criteria.where("username").is(username)), update, SELLER_IDENTITY_COLLECTION_NAME);
 	}
 
 	@Override

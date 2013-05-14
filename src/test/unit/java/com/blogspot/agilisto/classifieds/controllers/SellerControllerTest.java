@@ -167,6 +167,40 @@ public class SellerControllerTest {
 				.andExpect(content().string("1234"));
 	}
 	
+	@Test
+	public void testUpdateUserLocationFailsUsingInvalidDelimeter() throws Exception
+	{
+		mockMvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON)
+				.param("username", "johnDoe")
+				.param("password", "password")
+				.param("email", "email")
+				.param("firstName", "firstName")
+				.param("lastName", "lastName")
+				.param("street", "street")
+				.param("suburb", "suburb")
+				.param("state", "state")
+				.param("postcode", "postcode")
+				.param("country", "country")
+				.param("latitude", "56.10")
+				.param("longitude", "104.56")
+				.param("phoneNumber", "0404494123"))
+				.andExpect(status().isCreated());
+		
+		try
+		{
+			mockMvc.perform(put("/user").contentType(MediaType.APPLICATION_JSON)
+				.param("username", "johnDoe")
+				.param("userKey", "location")
+				.param("userValue", "90.00:89.00"))
+				.andExpect(status().isOk());
+		} catch (Exception e) {
+			Assert.assertTrue(e.getMessage().contains("Invalid location paramater: 90.00:89.00. Must be delimited with a :"));
+			return;
+		}
+		
+		Assert.assertFalse("Expected exception to ne thrown", true);
+	}
+	
 	@Test 
 	public void getNewListing() throws Exception {
 		SellerIdentity sellerId = new SellerIdentity("jojo", null, null, null, null, null, null, null, null, null, null);
@@ -175,6 +209,20 @@ public class SellerControllerTest {
 				.param("username", "jojo"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(org.junit.matchers.JUnitMatchers.containsString(":\"jojo")));
+	}
+	
+	@Test
+	public void deleteSellerNotFound() throws Exception {
+		try
+		{
+			mockMvc.perform(delete("/user").contentType(MediaType.APPLICATION_JSON)
+				.param("username", "johnDoe"));
+		} catch (Exception e) {
+			Assert.assertTrue(e.getMessage().contains("username: johnDoe does not exist"));
+			return;
+		}
+		
+		Assert.assertFalse("Exception expected", true);
 	}
 
 }

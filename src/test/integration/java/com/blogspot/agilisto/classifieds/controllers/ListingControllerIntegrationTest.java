@@ -177,6 +177,20 @@ public class ListingControllerIntegrationTest {
 	}
 	
 	@Test
+	public void testUpdateListingPrice() throws Exception
+	{
+		Listing listing = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);
+		mongoTemplate.save(listing, ListingServiceImpl.LISTING_COLLECTION_NAME);
+		double newPrice = 111.00d;
+		
+		mockMvc.perform(put("/listing").param("id",listing.getId()).param("updateKey", "price").param("updateValue", Double.toString(newPrice))).andExpect(status().isOk());
+		
+		Listing result = mongoTemplate.findById(listing.getId(), Listing.class);
+		
+		Assert.assertEquals(result.getPrice(), newPrice);
+	}
+	
+	@Test
 	public void testUpdateListings() throws Exception
 	{
 		Listing listing1 = new Listing("title", "description", 35.0d, "123", "123", 0l, 1l);

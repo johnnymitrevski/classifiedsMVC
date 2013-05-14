@@ -248,6 +248,50 @@ public class SellerControllerIntegrationTest {
 	}
 	
 	@Test
+	public void testUpdateUserLocation() throws Exception
+	{
+		mockMvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON)
+				.param("username", "johnDoe")
+				.param("password", "password")
+				.param("email", "email")
+				.param("firstName", "firstName")
+				.param("lastName", "lastName")
+				.param("street", "street")
+				.param("suburb", "suburb")
+				.param("state", "state")
+				.param("postcode", "postcode")
+				.param("country", "country")
+				.param("latitude", "56.10")
+				.param("longitude", "104.56")
+				.param("phoneNumber", "0404494123"))
+				.andExpect(status().isCreated());
+		
+		mockMvc.perform(put("/user").contentType(MediaType.APPLICATION_JSON)
+				.param("username", "johnDoe")
+				.param("userKey", "location")
+				.param("userValue", "90.00,89.00"))
+				.andExpect(status().isOk());
+		
+		SellerIdentity sellerIdentity = mongoTemplate.findOne(new Query(Criteria.where("username").is("johnDoe")), SellerIdentity.class);
+		SellerCredential sellerCredential = mongoTemplate.findOne(new Query(Criteria.where("username").is("johnDoe")), SellerCredential.class);
+		
+		Assert.assertEquals(sellerIdentity.getUsername(), "johnDoe");
+		Assert.assertEquals(sellerIdentity.getCountry(), "country");
+		Assert.assertEquals(sellerIdentity.getEmail(), "email");
+		Assert.assertEquals(sellerIdentity.getFirstName(), "firstName");
+		Assert.assertEquals(sellerIdentity.getLastName(), "lastName");
+		Assert.assertEquals(sellerIdentity.getPhoneNumber(), "0404494123");
+		Assert.assertEquals(sellerIdentity.getState(), "state");
+		Assert.assertEquals(sellerIdentity.getStreet(), "street");
+		Assert.assertEquals(sellerIdentity.getPostcode(), "postcode");
+		Assert.assertEquals(sellerIdentity.getSuburb(), "suburb");
+		Assert.assertEquals(sellerCredential.getUsername(), "johnDoe");
+		Assert.assertEquals(sellerCredential.getPassword(), "password");		
+		Assert.assertEquals(sellerIdentity.getLocation()[0], 90d);
+		Assert.assertEquals(sellerIdentity.getLocation()[1], 89d);
+	}
+	
+	@Test
 	public void testUpdateUsernamePassword() throws Exception
 	{
 		mockMvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON)

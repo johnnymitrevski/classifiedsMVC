@@ -111,12 +111,34 @@ public class SellerController {
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateSeller(@RequestParam("username")String username, @RequestParam("userKey")String userKey, @RequestParam("userValue")String userValue) {
+		updateCredential(username, userKey, userValue);
+		
+		updateIdentity(username, userKey, userValue);
+	}
+	
+	private void updateCredential(String username, String userKey, String userValue) {
 		if(userKey == "username" || userKey == "password")
 		{
 			sellerCredentialService.updateSellerCredential(username, userKey, userValue);
 		}
-		
-		if(userKey != "password")
+	}
+	
+	private void updateIdentity(String username, String userKey, String userValue) {
+		if(userKey == "location")
+		{
+			try
+			{
+				double latitude = Double.valueOf(userValue.split(",")[0]);
+				double longitude = Double.valueOf(userValue.split(",")[1]);
+				double[] location = {latitude, longitude};
+				
+				sellerIdentityService.updateSellerIdentity(username, userKey, location);
+				
+			} catch(Exception ex) {
+				throw new ClassifiedsBadRequestException("Invalid location paramater: " + userValue + ". Must be delimited with a :");
+			}
+		}
+		else if(userKey != "password")
 		{
 			sellerIdentityService.updateSellerIdentity(username, userKey, userValue);
 		}
