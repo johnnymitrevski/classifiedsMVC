@@ -10,3 +10,5 @@ Setup IDE
 3) Install CloudFoundry plugin - Eclipse Marketplace<br>
 4) Import projects from Git, https://github.com/johnnymitrevski/classifiedsMVC<br>
 5) Use the Spring Template Project -> Spring MVC Project to setup<br>
+
+To run integration tests you need to have Mongo DB on the build box.
